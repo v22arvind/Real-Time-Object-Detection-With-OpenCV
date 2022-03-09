@@ -9,6 +9,9 @@ import argparse
 import imutils
 import time
 import cv2
+import matplotlib.pyplot as plt
+from IPython import display
+import keyboard
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -149,7 +152,15 @@ while True:
 			cv2.putText(frame, label, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
 
 	# show the output frame
-	cv2.imshow("Frame", frame)
+	#cv2.imshow("Frame", frame)
+	#display.clear_output(wait=True)
+	#display.display(plt.gcf())
+	plt.clf()
+	img = cv2.rectangle(frame, (startX, startY), (endX, endY), COLORS[idx], 2) 
+	plt.imshow(img, cmap='gray') 
+	plt.show(block=False)
+	plt.pause(.05)
+	#time.sleep(1)
 
 	# HOW TO STOP THE VIDEOSTREAM?
 	# Using cv2.waitKey(1) & 0xFF
@@ -176,10 +187,11 @@ while True:
 	# ord() returns the unicode code point of the character. For e.g., ord('a') = 97; ord('q') = 113
 
 	# Now, let's code this logic (just 3 lines, lol)
-	key = cv2.waitKey(1) & 0xFF
+	# key = 'a'
+	# key = cv2.waitKey(1) & 0xFF
 
 	# Press 'q' key to break the loop
-	if key == ord("q"):
+	if keyboard.is_pressed("q"):
 		break
 
 	# update the FPS counter
@@ -193,7 +205,7 @@ print("[INFO] Elapsed Time: {:.2f}".format(fps.elapsed()))
 print("[INFO] Approximate FPS: {:.2f}".format(fps.fps()))
 
 # Destroy windows and cleanup
-cv2.destroyAllWindows()
+#cv2.destroyAllWindows()
 # Stop the video stream
 vs.stop()
 
